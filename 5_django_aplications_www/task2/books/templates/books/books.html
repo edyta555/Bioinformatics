@@ -1,0 +1,67 @@
+<!DOCTYPE html5>
+<head>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+     <!--zapewnia odpowiednie pokazywanie na ekranie i powiekszanie-->
+    <!-- Latest compiled and minified CSS Najnowsze skompilowane i ulepszone CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ {% load static %}
+  <script src="/static/books/script.js"></script>
+</head>
+<body>
+    <center>
+        <h1>List of books by category</h1>
+    </center>
+    <div class="container">
+    <center>
+{% if books %}
+    <table class="table table-striped table-hover">
+    <tr>
+    <th>Title</th>
+    <th>Authors</th>
+    <th>Category</th>
+    <th>Was_read</th>
+    <th>Comments</th>
+    <th colspan="2">Options</th>
+    </tr>
+    {% for book in books %}
+        <tr id="{{ book.id }}" version="{{ book.version }}">
+        <td><span>{{ book.title }}</span></td>
+        <td><span>{{ book.authors}}</span></td>
+        <td class="category">{{ book.category}}</td>
+        <td> <input type="checkbox" class="check-button" {% if book.was_read %} checked {% endif %}> </td>
+        <td><span class="comments">{{ book.comments}}</span><input type="text" value="{{ book.comments }}" class="comments_edit"/></td>
+        <td><button class="btn btn-warning edit-button glyphicon glyphicon-pencil ajax-edit" title="edit comments" >Comments</button>
+        <button class="btn btn-info save-button glyphicon glyphicon-save ajax-save" >Save</button></td>
+        <td><button class="btn btn-danger cancel-button glyphicon glyphicon-remove" title="Don't save changes">Anuluj</button>
+        <button class="btn btn-danger delete-button glyphicon glyphicon-trash ajax-delete" title="remove book"></button></td>
+        
+    </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
+    </center>
+    </div>
+<div class="container">
+    <h3>New book</h3>
+<form method="post" class="col-sm-6">
+    {% csrf_token %}
+    {{form.as_p}}
+    <p><input type="submit" value="Add"></p>
+  </form>
+  <p class="col-sm-6">
+      <img src="/static/books/1.png/">
+</p>
+ </div>
+</body>
+</html>

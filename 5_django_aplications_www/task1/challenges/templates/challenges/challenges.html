@@ -1,0 +1,82 @@
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% load static %}
+<script src="{% static 'challenges/script.js' %}"></script> 
+</head>
+
+<body>
+<div class="container">
+{% if challenges %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th> Name </th>
+        <th> Description </th>
+        <th> Begin date </th> 
+        <th> Days total </th>
+        <th> Days done </th>
+        <th>
+            Fraction done
+        </th>
+     </tr>
+    </thead>
+    <tbody>
+    {% for challenge in challenges %}
+      <tr id="{{ challenge.id }}">
+       <td>
+          <span class="text name-text"> {{ challenge.name }} </span> 
+          <input class="edit name-edit" type="text" name="name" />
+       </td>
+       <td>
+          <span class="text description-text"> {{ challenge.description }} </span>
+          <input class="edit description-edit" type="text" name="description" />
+       </td>
+       <td> 
+          <span class="text begin-text">{{ challenge.beginStr }} </span>
+          <input class="edit begin-edit" type="date" name="begin" />
+       </td> 
+       <td>
+          <span class="text days-text"> {{ challenge.days}} </span>
+          <input class="edit days-edit" type="text" name="days" />
+       </td>
+       <td>
+          <span class="text counter counter-text"> {{ challenge.counter}} 
+          </span>
+          <input class="edit counter-edit" type="text" name="counter"/>
+       </td>
+       <td>
+          <span class="text fraction-text"> {{ challenge.fraction}} 
+          </span>
+       </td>
+       <td>
+            <button class="btn btn-success plus-button glyphicon glyphicon-plus" title="add one day done"></buton> 
+       </td>
+       <td>
+            <button class="btn btn-warning edit-button glyphicon glyphicon-pencil ajax-edit" title="edit"> </buton>
+            <button class="btn btn-info return-button glyphicon glyphicon-save ajax-save" title="save"> </button>
+       </td>
+       <td> <button class="btn btn-danger delete-button glyphicon glyphicon-trash ajax-delete" title="delete">  </button> 
+            <button class="btn btn-danger return-button glyphicon glyphicon-arrow-left"  title="cancel"> </button>
+       </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+    <p> No challenges are available. </p>
+{% endif %}
+
+<form method="post">
+{% csrf_token %}
+{{form.as_p}}
+<p><input type="submit" value="Add"></p>
+
+</form>
+  </div>
+</body>
